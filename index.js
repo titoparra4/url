@@ -10,6 +10,9 @@ app.set('view engine', 'pug');
 //View Folder
 app.set('views', path.join(__dirname, './views'));
 
+//Upload static files to public
+app.use(express.static('public'));
+
 //Define application paths
 app.use('/', routes());
 
