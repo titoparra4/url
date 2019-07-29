@@ -1,3 +1,3 @@
 exports.home = (req, res) => {
-	res.send('Hello Word');
+	res.render('index');
 };
