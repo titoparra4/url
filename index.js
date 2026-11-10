@@ -1,20 +1,19 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const routes = require('./router');
 
 const app = express();
 
-//Body Parser to read the form data
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+//Read the form data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //Connect Mongo
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/ShorteningUrl', {
-	useNewUrlParser: true
-});
+mongoose
+	.connect(process.env.MONGO_URI || 'mongodb://localhost/ShorteningUrl')
+	.catch((error) => console.error('Error connecting to MongoDB:', error.message));
 
 //Enable Pug
 app.set('view engine', 'pug');
@@ -28,4 +27,4 @@ app.use(express.static('public'));
 //Define application paths
 app.use('/', routes());
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
